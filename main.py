@@ -1,29 +1,17 @@
-import telebot
-import datetime
-from telebot import types
+import asyncio
+import logging
+from aiogram import Bot, Dispatcher, types
+from aiogram.utils import executor
 
-token = '5734387053:AAE_C1Ol4pqMSL7IqbzRo4H1Ey0IcwETusI'
-bot = telebot.TeleBot(token)
-dt_now = datetime.datetime.now()
+logging.basicConfig(level=logging.INFO)  # Включаем логирование, чтобы не пропустить важные сообщения
 
+bot = Bot(token = '5734387053:AAE_C1Ol4pqMSL7IqbzRo4H1Ey0IcwETusI')
 
-@bot.message_handler(commands=['start'])
-def start_message(message):
-    bot.send_message(message.chat.id, dt_now)
+dp = Dispatcher(bot)
 
+@dp.message_handler(commands = ["писька"])
+async def cmd_start(message: types.message):
+    await message.answer("Hello!")
 
-@bot.message_handler(commands=['button'])
-def button_message(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = types.KeyboardButton("Кнопка")
-    markup.add(item1)
-    bot.send_message(message.chat.id, 'Выберите что вам надо', reply_markup=markup)
-
-
-@bot.message_handler(content_types='text')
-def message_reply(message):
-    if message.text == "Кнопка":
-        bot.send_message(message.chat.id, "https://habr.com/ru/users/lubaznatel/")
-
-
-bot.infinity_polling()
+if __name__ == "__main__":
+    executor.start_polling(dp, skip_updates=True)
