@@ -9,7 +9,7 @@ bot = Bot(token = '5734387053:AAE_C1Ol4pqMSL7IqbzRo4H1Ey0IcwETusI')
 
 dp = Dispatcher(bot)
 
-@dp.message_handler(commands = ["писька"])
+@dp.message_handler(commands = ["привет", "хай"])
 async def cmd_start(message: types.message):
     await message.answer("Hello!")
 
